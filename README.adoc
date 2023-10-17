@@ -1,1 +1,15 @@
-= Device Security Rating Documentation
+= Device Security Rating: Documentation
+
+This repository contains the source code for the documentation website for the Device Security Rating project:
+
+*https://dsr.gematik.solutions*
+
+== Development
+
+We use Hugo to generate the static website. To install Hugo, please follow the instructions on the https://gohugo.io/getting-started/installing/[Hugo Installation Guide]
+
+To run the website locally, run the following command in the root directory of this repository:
+
+```
+hugo server
+```

@@ -1,0 +1,85 @@
+//$primary: rgb(83,255,33);
+//$secondary: #A23B72;
+$primary: rgb(1,7,65);
+$secondary: rgb(83,255,33);
+$google_font_name: "IBM Plex Sans";
+$google_font_family: "IBM+Plex+Sans:300,300i,400,400i,700,700i";
+
+.td-navbar {
+  background-color: #fff !important;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.td-navbar .navbar-nav .nav-link {
+  color: rgb(1,7,65) !important;
+  font-weight: 500 !important;
+}
+
+.td-navbar .navbar-brand__name {
+  color: rgb(1,7,65) !important;
+  font-weight: 400 !important;
+}
+.td-navbar .navbar-nav .nav-link:hover {
+  text-decoration: underline;
+  text-decoration-color: rgb(83,255,33) !important;
+}
+
+.td-sidebar-nav {
+  font-size: 0.8rem;
+}
+
+.td-sidebar-nav .tree-root {
+  margin-top: 0.4rem;
+  font-size: 1rem;
+  color: rgb(1,7,65) !important;
+}
+
+h1 {
+  font-weight: 400 !important;
+}
+
+.td-page-meta {
+  a {
+    display: block;
+    font-weight: 100;
+    font-size: small;
+  }
+}
+
+.td-page-meta.pb-1 {
+  padding-bottom: 1em !important;
+}
+
+.td-page-meta--view { display: none !important; }
+.td-page-meta--child { display: none !important; }
+
+.td-search-input {
+  border-color: rgb(1,7,65) !important;
+  background-color: #EEEEEE !important;
+}
+
+.td-search-input::placeholder {
+  color: rgb(1,7,65) !important;
+}
+
+.td-home .td-navbar {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+//  opacity: 0.2;
+}
+
+.td-home .td-navbar .nav-link {
+  text-shadow: none !important;
+}
+
+.td-home .display-1 {
+  text-shadow: rgb(0, 0, 0) 2px 2px 2px;
+}
+
+.textbox {
+  //color: rgb(1,7,65) !important;
+  background-color: rgba(80,80,90, 0.5) !important;
+}
+
+.td-home .navbar-bg-onscroll {
+  background-color: rgba(255, 255, 255, 1) !important;
+}
