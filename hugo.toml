@@ -65,7 +65,7 @@ languageName ="English"
 weight = 1
 [languages.en.params]
 title = "Device Security Rating"
-description = "Landing page and documentation for gematik Device Security Rating"
+description = "Zero Trust proof of concept for the next generation German eHealth network (Telematics Infrastructure 2.0) with a focus on device attestation and policy enforcement."
 
 [markup]
   [markup.goldmark]
