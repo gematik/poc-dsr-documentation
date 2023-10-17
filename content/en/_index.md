@@ -48,7 +48,7 @@ Sample policy bundle for Open Policy Agent
 
 
 {{% blocks/feature icon="fa-right-left" title="Sample Business API" %}}
-Protected by the Zero Trust
+Protected by zero trust mechanisms
 {{% /blocks/feature %}}
 
 {{% /blocks/section %}}
@@ -58,6 +58,6 @@ Protected by the Zero Trust
 Contributions welcome!
 {.h1 .text-center}
 
-The Device Security Rating PoC is an open-source project of the German National Digital Health Agency, gematik GmbH. It is part of the next generation German eHealth network (Telematics Infrastructure 2.0) and based on the TI 2.0 concept paper released in March 2023. By releasing all material to the public, gematik would like to start a dialog with the civil society and industry.
+The Device Security Rating PoC is an open-source project of the German National Digital Health Agency, gematik GmbH. It is part of the next generation German eHealth network [Telematics Infrastructure 2.0](https://www.gematik.de/media/gematik/Medien/Telematikinfrastruktur/Dokumente/gematik_Whitepaper_Arena_digitale_Medizin_TI_2.0_Web.pdf) and based on the [Zero Trust concept paper](https://fachportal.gematik.de/fileadmin/Fachportal/Downloadcenter/gemKPT_Zero_Trust_V1.0.0.pdf) released in March 2023. By releasing all material to the public, gematik would like to start a dialog with the civil society and industry.
 {{% /blocks/section %}}
 
