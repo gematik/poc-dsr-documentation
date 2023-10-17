@@ -1,4 +1,4 @@
-baseURL = "https://dsr.gematik.solutions/draft"
+baseURL = "https://dsr.gematik.solutions/draft/"
 title = "Device Security Rating"
 
 # Language settings
