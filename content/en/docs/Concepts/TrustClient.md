@@ -45,7 +45,7 @@ To prove the app identity to third parties, an X.509 client certificate is gener
 ### Device and App Attestation
 In addition to the app identity, the device's and application's health (Zero Trust signals) are taken into account when making an  access to a resource at the PDP/PEP. The trustworthy collection of the health signals is carried out using platform-specific attestation and collection mechanisms (see [Apple Platform Security Guide](https://help.apple.com/pdf/security/en_US/apple-platform-security-guide.pdf), [Android Platform Security Model](https://dl.acm.org/doi/pdf/10.1145/3448609)) in the TrustClient in order to guarantee the authenticity and integrity of the signals. As there is currently no standardized, cross-platform attestation format, the platform-specific attestations are converted into a consolidated device token by the GMS after checking their integrity and authenticity.
 
-![dev_sec_level](/images/concept_trust_client_token.png)
+![dev_sec_level](concept_trust_client_token.png)
 
 #### Android
 
@@ -61,7 +61,7 @@ If an app generates cryptographic key material in the KeyStore, a X.509 attestat
 
 An app-specific attestation key pair (keypair_attest) is created by the TrustClient and attested using Key & ID Attestation. Keypair_attest and the corresponding attestCert_attest now serve as the root of trust for the Trust Client, i.e. attests/signs all other cryptographic keys created in the life cycle of the Trust Client and surrounding app. This includes the app identity (keypair_mTLS, cert_mTLS), but also device and app attestations requested during resource access (keypair_attestation_n, cert_attestation_n).
 
-![token_flow](/images/concept_trust_client_device_root_of_trust.png)
+![token_flow](concept_trust_client_device_root_of_trust.png)
 
 ##### Further Device Signals
 In addition to the device signals from Play Integrity API and Key & ID Attestation, Android System API calls can be used to collect further valuable properties of a device. This information is is collected in the application during runtime.

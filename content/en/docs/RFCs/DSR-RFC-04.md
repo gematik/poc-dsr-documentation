@@ -16,7 +16,7 @@ tbd
 * sent from TrustClient to GMS during registration
 * contains all needed information for registration
 * signed with EF.C.CH.AUT.E256 (eGK)
-* see [DSR-RFC-01]({{< ref "/docs/RFCs/DSR-RFC-01.md" >}} "DSR-RFC-01") for corresponding sequence diagram
+* see [DSR-RFC-01]({{< ref "/docs/rfcs/dsr-rfc-01" >}} "DSR-RFC-01") for corresponding sequence diagram
 
 ```json
 // header
@@ -296,7 +296,7 @@ tbd
 * sent from TrustClient to GMS and then to GMS CA for requesting / issuing Cert_mTLS
 * contains standardized information
 * signed by TrustClient with privKey_mTLS
-* see [DSR-RFC-01]({{< ref "/docs/RFCs/DSR-RFC-01.md" >}} "DSR-RFC-01") for corresponding sequence diagram
+* see [DSR-RFC-01]({{< ref "/docs/rfcs/dsr-rfc-01" >}} "DSR-RFC-01") for corresponding sequence diagram
 
 ```text
 // PKCS #10
@@ -310,7 +310,7 @@ Organization = DSR_POC
 * issued by GMS CA to TrustClient / device
 * attests the device's/app's pubkey_mTLS (device identity)
 * must contain KVNR 
-* see [DSR-RFC-01]({{< ref "/docs/RFCs/DSR-RFC-01.md" >}} "DSR-RFC-01") for corresponding sequence diagram
+* see [DSR-RFC-01]({{< ref "/docs/rfcs/dsr-rfc-01" >}} "DSR-RFC-01") for corresponding sequence diagram
 
 ```json
 //tbd
