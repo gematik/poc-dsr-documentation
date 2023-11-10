@@ -59,6 +59,7 @@ jobs:
           hugo \
             --gc \
             --minify \
+            --buildDrafts \
             --baseURL "${{ steps.pages.outputs.base_url }}/draft/"          
       - name: Copy to draft subfolder
         run: |
