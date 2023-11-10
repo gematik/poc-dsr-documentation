@@ -1,5 +1,5 @@
 ---
-linkTitle: DSR-RFC-05
+linkTitle: DSR-RFC-05 UI Flows
 title: DSR-RFC-05 UI Flows
 weight: 5
 ---

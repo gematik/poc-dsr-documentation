@@ -1,5 +1,5 @@
 ---
-linkTitle: DSR-RFC-01
+linkTitle: DSR-RFC-01 Device Registration
 title: DSR-RFC-01 Device Registration
 weight: 1
 ---
@@ -8,3 +8,5 @@ weight: 1
 Content is under development
 {{% /pageinfo %}}
 
+
+![registration_overview](/images/dsr_rfc_01_device_registration.png)

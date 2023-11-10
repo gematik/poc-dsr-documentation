@@ -1,5 +1,5 @@
 ---
-linkTitle: DSR-RFC-02
+linkTitle: DSR-RFC-02 Resource Access
 title: DSR-RFC-02 Resource Access
 weight: 2
 ---
@@ -7,6 +7,12 @@ weight: 2
 {{% pageinfo %}}
 Content is under development
 {{% /pageinfo %}}
+
+## High Level Flow
+
+
+![ressource_access](/images/dsr_rfc_02_resource_access.png)
+
 
 ## Main flow
 

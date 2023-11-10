@@ -78,6 +78,7 @@ description = "Zero Trust proof of concept for the next generation German eHealt
     style = "tango"
     # Uncomment if you want your chosen highlight style used for code blocks without a specified language
     # guessSyntax = "true"
+    linenos = true
 
 # Everything below this are Site Params
 

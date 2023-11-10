@@ -1,6 +1,6 @@
 ---
-linkTitle: DSR-RFC-03
-title: DSR-RFC-03 Deletion of Registered Device
+linkTitle: DSR-RFC-03 Device Deletion
+title: DSR-RFC-03 Device Deletion
 weight: 3
 ---
 
