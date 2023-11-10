@@ -69,7 +69,7 @@ tbd
 * sent from TrustClient to GMS for attestation
 * contains attestation information
 * signed with mTLS_privateKey, (Android), privateKey_attest (iOS)
-* see [DSR-RFC-02]({{< ref "/docs/RFCs/DSR-RFC-02.md" >}} "DSR-RFC-02") for corresponding sequence diagram
+* see [DSR-RFC-02]({{< ref "/docs/rfcs/dsr-rfc-02" >}} "DSR-RFC-02") for corresponding sequence diagram
 
 ```json
 // header
@@ -161,10 +161,10 @@ tbd
 * contains standard values from OAuth2.0 Certificate-Bound Access Tokens and
     * verdict_json ( Google Integrity API)
     * assertion (iOS)
-    * device_attributes_security (see [DSR-RFC-06]({{< ref "/docs/RFCs/DSR-RFC-06.md" >}} "DSR-RFC-06"))
+    * device_attributes_security (see [dsr-rfc-06]({{< ref "/docs/rfcs/dsr-rfc-06" >}} "DSR-RFC-06"))
     * UUID_device ↔ KVNR relation
 * signed with privateKey_GMS
-* see [DSR-RFC-02]({{< ref "/docs/RFCs/DSR-RFC-02.md" >}} "DSR-RFC-02") for corresponding sequence diagram
+* see [DSR-RFC-02]({{< ref "/docs/rfcs/dsr-rfc-02" >}} "DSR-RFC-02") for corresponding sequence diagram
 
 ```json
 // Header
@@ -320,7 +320,7 @@ Organization = DSR_POC
 * sent from health service (FD) to TrustClient after successful device rating
 * allows using session for a defined period of time without another device attestation
 * signed by health service (FD)
-* see [DSR-RFC-02]({{< ref "/docs/RFCs/DSR-RFC-02.md" >}} "DSR-RFC-02") for corresponding sequence diagram
+* see [DSR-RFC-02]({{< ref "/docs/rfcs/dsr-rfc-02" >}} "DSR-RFC-02") for corresponding sequence diagram
 ```json
 // header
 {

@@ -11,7 +11,7 @@ Content is under development
 ## High Level Flow
 
 
-![ressource_access](/images/dsr_rfc_02_resource_access.png)
+![ressource_access](resource_access.png)
 
 
 ## Main flow

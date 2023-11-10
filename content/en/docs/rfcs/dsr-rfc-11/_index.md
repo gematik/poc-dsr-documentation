@@ -10,4 +10,4 @@ Content is under development
 
 ## Introduction
 
-![mvm_pipeline](/images/dsr_rfc_11_mvm_pipeline.png)
+![mvm_pipeline](mvm_pipeline.png)

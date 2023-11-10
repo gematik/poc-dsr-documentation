@@ -45,7 +45,7 @@ To prove the app identity to third parties, an X.509 client certificate is gener
 ### Device and App Attestation
 In addition to the app identity, the device's and application's health (Zero Trust signals) are taken into account when making an  access to a resource at the PDP/PEP. The trustworthy collection of the health signals is carried out using platform-specific attestation and collection mechanisms (see [Apple Platform Security Guide](https://help.apple.com/pdf/security/en_US/apple-platform-security-guide.pdf), [Android Platform Security Model](https://dl.acm.org/doi/pdf/10.1145/3448609)) in the TrustClient in order to guarantee the authenticity and integrity of the signals. As there is currently no standardized, cross-platform attestation format, the platform-specific attestations are converted into a consolidated device token by the GMS after checking their integrity and authenticity.
 
-![dev_sec_level](concept_trust_client_token.png)
+![dev_sec_level](device_token.png)
 
 #### Android
 

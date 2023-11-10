@@ -3,13 +3,12 @@ description: |
   Introduction to the Device Security Rating project
 title: Project Introduction
 weight: 4
-icon: fa-solid fa-screwdriver-wrench
 ---
 ## Introduction
 The Device Security Rating (DSR) is a Proof of Concept (PoC) to demonstrate the secure access to services using Zero Trust design principles. In contrast to enterprise-centric Zero Trust architectures, where devices need to be owned and/or managed by a company, the DSR PoC is designed in a way that allows participants from different legal and organisational entities without the need of giving up the ownership of their devices. 
 
 ## Project scope
-It provides the specification (in form of [DSR-RFCs]({{< ref "/docs/RFCs" >}} "DSR RFCs")) and sample implementation (on GitHub) of following aspects:
+It provides the specification (in form of [DSR-RFCs]({{< ref "/docs/rfcs" >}} "DSR RFCs")) and sample implementation (on GitHub) of following aspects:
 * **Device Registration:** Self managed automatic registration and hardware-based identity
 * **Device and App Attestation:** Sample implementation for Apple iOS and Google Android
 * **Device Management Service:** Sample implementation written in Java
