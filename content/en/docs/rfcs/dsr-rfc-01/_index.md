@@ -9,4 +9,4 @@ Content is under development
 {{% /pageinfo %}}
 
 
-![registration_overview](/images/dsr_rfc_01_device_registration.png)
+![registration_overview](device_registration.png)
