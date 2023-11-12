@@ -8,145 +8,106 @@ weight: 2
 Content is under development
 {{% /pageinfo %}}
 
-## High Level Flow
-
+## 1. High Level Flow
 
 ![ressource_access](resource_access.png)
 
+1. `TrustClient` connects to the `eHealth Service` using TLS. Mutual authentication is performed using the client certificate issued in [DSR-RFC-01]({{< ref "../dsr-rfc-01" >}})
+2. `Policy Decision Point` regularly downloads, verifies, and installs the currently active policy from `Policy Administration Point` as well as context information from `Policy Information Point`.
+3. `TrustClient` requests an attestation from the platform APIs. 
+4. Attestation results are transmitted to `Device Management Service` in form of [Device Attestation Token](../dsr-rfc-04/#device-attestation-token-jwt_attest). Device Registration Service verifies the authenticity and integrity of the attestation and issues the [Device Token](../dsr-rfc-04/#device-token-device_token)
+5. `Trust Client`sends the `Device Token` as bearer token bound to mTLS certificate or a OAuth2 Code to the eHealth Service's `PEP`. PEP verifies the authenticity of the Device Token and extracts the device information.
+6. `PEP` uses device information and other available signals (e.g. HTTP request headers) as input to the `PDP`. `PDP` applies the policy against the device information and any other input provided to it by the `PEP`.
+7. Once `PDP` allowed the access by making the positive decision, the `PEP` lets the eHealth Service to continue and provide resources and other functionalities to the client.
 
-## Main flow
+
+## 2. Flow Details
+
+{{% plantuml file="main_flow.puml" %}}
+
+
+## 2.1 Android specifics
+
+### 2.1.1 Create Android Device Attest
 
 ```plantuml
-autonumber "<b>[0]"
+@startuml
+autonumber "<b>['2.1.1' 00]"
 skinparam defaultFontSize 10
-skinparam defaultFontName Helvetica
 skinparam DefaultMonospacedFontName Courier
 skinparam lengthAdjust none
 
-activate Frontend
+activate TrustClient
 
-participant Service
-participant GMS
-participant IDP
-
-Frontend -> Service ++: ""GET /resource""
-Service -> Service: missing token\nor session expired
-Service -> Frontend --: ""401 Unauthorized""\n""WWW-Authenticate: ...""
-
-== Authentication and authorization ==
-
-Frontend -> Service ++: Start authorization
-Service -> Frontend --: ""code_challenge"" device\n""code_challenge"" subject
-
-Frontend -> GMS ++: authenticate device
-GMS -> Frontend --: ""auth_code"" for device
-
-Frontend -> IDP ++: authenticate subject
-IDP -> Frontend --: ""auth_code"" for subject
-
-Frontend -> Service ++: authorize access\n""auth_code device""\n""auth_code"" subject
-Service -> GMS ++: get device_token\ncode=..&code_verifier=..
-GMS -> Service --: device_token
-Service -> IDP ++: get id_token\ncode=..&code_verifier=..
-IDP -> Service --: id_token
-Service -> Service: create session
-Service -> Frontend: ""access_token""
-
-== Session established ==
-
-Frontend -> Service: ""GET /resource""\n""Authorization: Bearer {access_token}""
-Service -> Frontend: resource
-
-Frontend -> Service: ""GET /other-resource""\n""Authorization: Bearer {access_token}""
-Service -> Frontend: other resource
+group Android
+TrustClient -> TrustClient: trigger Play Integrity API(nonce_PlayIntegrityAPI),\n\tcreate keypair keypair_attest_derived(pubkey_mTLS),\n\tAttestCert_derived(nonce_attest_derived),\n\tcollect device_attributes_security
+TrustClient -> TrustClient: create JWT_attest(\n\tTYPE_ANDROID,\n\tintegrity_verdict,\n\tAttestCert_derived,\n\tdevice_attributes_security,\n\tnonce)
+TrustClient -> TrustClient: sign JWT_attest with keypair_attest_derived
+end
 ```
 
-1. `Frontend` requests a resource at a `Service` with missing, expired or invalid `access_token`
-1. `Service` verifies the request and determines, that authorization is required
-1. `Service` responds with `401` and provides the information for the client how to proceed with authorization using the `WWW-Authenticate` header, see [RFC9110, Section 11.6.1](https://datatracker.ietf.org/doc/html/rfc9110.html#name-www-authenticate)
-1. `Frontend` starts the authorization process. At this point it should be known which GMS and which IDP is to be used for authorization, e.g. by configuration or user choice.
-1. `Service` generates the code challenges for the device and user subject as described in [RFC7636](https://datatracker.ietf.org/doc/html/rfc7636)
-1. `Frontend` initiates and performs the device authorization at `GMS`
-1. `GMS` provides the `auth_code` for the device, redeemable only by the `Service`
-1. `Frontend` initiates and performs the subject authorization at `IDP`. This step will require a more complex protocol, especially involving some kind of Authenticator and Credentials.
-1. `GMS` provides the `auth_code` for the device, redeemable only by the `Service`
-1. `Frontend` transmits both `auth_codes` (device and subject) to the token endpoint of the `Service`
-1. Service requests `device_token` using the `auth_code` and the `code_verifier` for device
-1. GMS issues the `device_token`and transmits it to the Service
-1. Service requests `id_token` the `auth_code` and the `code_verifier` for subject
-1. IDP issues the `id_token` and transmits it to the `Service`
-1. `Service` issues an `access_token` for a limited period of time, establishing the user session with the `Frontend`
-1. `Service` transmits `access_token`to the `Frontend` 
-1. `Frontend` can now access the resources at the `Service`
-
-## Using nginx with `auth_request` as frontend proxy
-
-In our sample implementation we use nginx as frontend proxy. Each request is authorized using the [`auth_request` subrequest](https://nginx.org/en/docs/http/ngx_http_auth_request_module.html), which is handled by the PEP. If PEP returns any other response as `200`, the proxy access to the business backend will be denied by the nginx. 
+### 2.1.2 Verify Android Device Attest
 
 ```plantuml
-autonumber "<b>[0]"
+@startuml
+autonumber "<b>['2.1.2' 00]"
 skinparam defaultFontSize 10
-skinparam defaultFontName Helvetica
 skinparam DefaultMonospacedFontName Courier
 skinparam lengthAdjust none
 
-activate Frontend
+activate DMS
 
-box "Policy Enforcement"
-participant "nginx" as Proxy
-participant "dsr-pep" as PEP #Orange
-end box
+group Android
+DMS -> DMS: extract\n\t""integrity_verdict""\n\t""AttestCert_derived""\n\t""device_attributes_security""
+DMS -> DMS: verify\n\t""AttestCert_derived""\ncheck\n\t""AttestCert_derived is child""\n\t""of AttestCert_mTLS""
+DMS -> GoogleServer ++: request\n\t""integrity_verdict(integrity_verdict)""
+return return ""verdict_json""
+DMS -> DMS: create\n\t""device_token(""\n\t""verdict_json,""\n\t""device_attributes_security,""\n\t""UUID_device <-> KVNR""\n\t"")""
 
-participant "dsr-fahdienst" as Backend
-
-group Unauthorized
-Frontend -> Proxy ++: ""GET /resource""
-Proxy -> PEP ++: auth subrequest\n""GET /.../auth_request""
-PEP -> PEP: missing token\nor session expired
-PEP -> Proxy --: ""401 Unauthorized""\n""WWW-Authenticate: ...""
-Proxy -> Frontend --: ""401 Unauthorized""\n""WWW-Authenticate: ...""
 end
-
-group Authorized
-Frontend -> Proxy ++: ""GET /resource""\n""Authorization: Bearer {access_token}""
-Proxy -> PEP ++: auth subrequest\n""GET /.../auth_request""
-PEP -> PEP: ""access_token"" is valid
-PEP -> Proxy --: ""200 OK""
-Proxy -> Backend ++: ""proxy_pass GET /resource""
-Backend -> Proxy --: Resource
-Proxy -> Frontend --: Resource
-end
-
-
-deactivate Frontend 
-
 ```
 
-## Policy Enforcement
+
+## 2.2 Apple specifics
+
+### 2.2.1 Create Apple Device Attest
 
 ```plantuml
-autonumber "<b>[0]"
+@startuml
+autonumber "<b>['2.2.1' 00]"
 skinparam defaultFontSize 10
-skinparam defaultFontName Helvetica
 skinparam DefaultMonospacedFontName Courier
 skinparam lengthAdjust none
 
-activate Frontend
+activate TrustClient
 
-box "Service"
-participant PEP #Orange
-participant PDP #Orange
-participant "Business Backend" as Backend
-end box
+group Apple
+TrustClient -> TrustClient: trigger AppAttestAPI assertion(\n\tnonce_attest_derived | fingerprint(pubkey_mTLS)\n),\ncollect device_attributes_security
+TrustClient -> TrustClient: create JWT_attest(\n\tTYPE_iOS,\n\tassertion,\n\tdevice_attributes_security,\n\tnonce)
+TrustClient -> TrustClient: sign JWT_attest with keypair_attest_sign
+end
+```
 
-Frontend --> PEP: request1 
+### 2.2.2 Verify Apple Device Attest
 
-PEP --> PDP ++
-PDP --> PEP --
+```plantuml
+@startuml
+autonumber "<b>['2.2.2' 00]"
+skinparam defaultFontSize 10
+skinparam DefaultMonospacedFontName Courier
+skinparam lengthAdjust none
 
-PEP --> Backend ++
-Backend --> PEP --
+activate DMS
 
-PEP --> Frontend --
+group Apple
+DMS -> DMS: extract assertion, device_attributes_security
+DMS -> AppleCA ++ : verify assertion
+return return result
+group optional
+  DMS -> AppleBackEnd ++: assess fraud risk
+  return return assessment
+end optional
+DMS -> DMS: create device_token(\n\tassertion,\n\tdevice_attributes_security,\n\tUUID_device <-> KVNR\n)
 
+end
 ```

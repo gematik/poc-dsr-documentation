@@ -1,0 +1,90 @@
+@startuml DSR-RFC-02 Main Flow
+autonumber "<b>[00]"
+skinparam defaultFontSize 10
+skinparam defaultFontName Helvetica
+skinparam DefaultMonospacedFontName Courier
+skinparam lengthAdjust none
+
+activate TrustClient
+
+participant DMS
+box "Policy Enforcement"
+participant PEP
+participant PDP
+end box
+participant Backend as "eHealth\nService"
+
+TrustClient -> DMS++: ""GET /nonce""
+note right
+Regular TLS
+Server auth only
+end note
+DMS -> DMS: generate ""nonce""\nstore ""nonce"" in session
+DMS -> TrustClient --: ""nonce""
+
+
+TrustClient -> TrustClient: generate\n  ""pkceCodeVerifier""\n  ""pkceCodeChallenge""
+
+alt#FEFFD5  2.1.1 Create Android Device Attest
+TrustClient -> TrustClient: Provide JWS_attest_signed 
+else 2.2.1 Create Apple Device Attest 
+TrustClient -> TrustClient: Provide JWS_attest_signed 
+end
+
+
+TrustClient -> DMS ++ : ""JWS_attest_signed"" \n ""pkceCodeChallenge""  
+note right
+Mutual TLS
+end note
+DMS -> DMS: check if device ID is known\n(find device registration)
+DMS -> DMS: check if publicKey fingerprint from mTLS is\n"sub" claim at JWS_attest_signed
+DMS -> DMS: verify JWS_attest_signed  
+DMS -> TrustClient: return auth_code
+
+alt#FEFFD5 2.1.2 Verify Android Device Attest 
+DMS -> DMS: Provide device_token 
+else 2.2.2 Verify Apple Device Attest
+DMS -> DMS: Provide device_token 
+end
+
+DMS -> DMS: sign device_token(privKey_GMS)
+ 
+ ... some delay ...
+ 
+TrustClient -> DMS: ""auth_code""\n""pkceCodeVerifier""
+note right
+Mutual TLS
+end note
+DMS -> DMS: verify\n ""auth_code""\n ""pkceCodeVerifier""
+return ""device_token""
+note right
+PKCE can also be performed by PEP
+end note
+
+TrustClient -> PEP ++: request resource(""device_token"")
+hnote over PEP: authenticate user
+PEP -> PEP: verify ""device_token""
+PEP -> PEP: create \n""policy_decision_input""
+
+PEP -> PDP: request \n""policy_decision""
+PDP -> PEP: ""policy_decision""
+
+Backend -[#8BC34A]> TrustClient: <font color="#8BC34A"><&circle-check*4.0>
+   
+
+/'
+group Android
+TrustClient -> TrustClient: trigger Play Integrity API(nonce_PlayIntegrityAPI),\n\tcreate keypair keypair_attest_derived(pubkey_mTLS),\n\tAttestCert_derived(nonce_attest_derived),\n\tcollect device_attributes_security
+TrustClient -> TrustClient: create JWT_attest(\n\tTYPE_ANDROID,\n\tintegrity_verdict,\n\tAttestCert_derived,\n\tdevice_attributes_security,\n\tnonce)
+TrustClient -> TrustClient: sign JWT_attest with keypair_attest_derived
+end Android
+
+group Apple
+TrustClient -> TrustClient: trigger AppAttestAPI assertion(\n\tnonce_attest_derived | fingerprint(pubkey_mTLS)\n),\ncollect device_attributes_security
+TrustClient -> TrustClient: create JWT_attest(\n\tTYPE_iOS,\n\tassertion,\n\tdevice_attributes_security,\n\tnonce)
+TrustClient -> TrustClient: sign JWT_attest with keypair_attest_sign
+end Apple
+'/
+
+@enduml
+
