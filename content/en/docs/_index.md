@@ -7,3 +7,4 @@ title: Device Security Rating Documentation
 weight: 20
 ---
 
+![DSR Overview](dsr_overview.png)
