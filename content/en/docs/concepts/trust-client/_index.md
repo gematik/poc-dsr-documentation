@@ -61,27 +61,22 @@ If an app generates cryptographic key material in the KeyStore, a X.509 attestat
 
 An app-specific attestation key pair (keypair_attest) is created by the TrustClient and attested using Key & ID Attestation. Keypair_attest and the corresponding attestCert_attest now serve as the root of trust for the Trust Client, i.e. attests/signs all other cryptographic keys created in the life cycle of the Trust Client and surrounding app. This includes the app identity (keypair_mTLS, cert_mTLS), but also device and app attestations requested during resource access (keypair_attestation_n, cert_attestation_n).
 
-![token_flow](concept_trust_client_device_root_of_trust.png)
+![token_flow](device_root_of_trust.png)
 
 ##### Further Device Signals
-In addition to the device signals from Play Integrity API and Key & ID Attestation, Android System API calls can be used to collect further valuable properties of a device. This information is is collected in the application during runtime.
-
-| Attribute | Description | API | Root of Trust | Availability |
-|---|---|---|---|---|
-| **Android version**  |  Android version or API level / SDK version currently running on the device |  ```Build.VERSION.SDK_INT``` | Software |  >= Android 1.6 |
-| **Android version (release)**  |  Android version (API level) with which the device was released / CTS was passed |  ```getprop('ro.product.first_api_level')``` | Software | TODO |
-| **Patchlevel** | OS patch level |  ```Build.VERSION.SECURITY_PATCH```  | Software | >= Android 6.0 |
-| **FDE / FBE** |  Indicates whether device encryption is supported and whether it is activated. |  ```getprop('ro.crypto.state')```  | Software | TODO |
-| **System PIN / password / pattern set** | Indicates whether a PIN/pattern/password is set for the lock screen. |  ```KeyguardManager.isDeviceSecure()```, ```BiometricManager.canAuthenticate(BiometricManager.Authenticators.DEVICE_CREDENTIAL)```, ```BiometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)``` | Software | >= Android 6.0,  >= Android 11, >= Android 12 |
-| **System PIN / password / pattern quality** | The Device Policy Manager can be used to query whether certain password complexity levels are currently being met. |  ```DevicePolicyManager.getPasswordComplexity()```, requires ```android.permission.REQUEST_PASSWORD_COMPLEXITY``` | Software | >= Android 10 |
-| **Verified boot supported** | Indicates whether VerifiedBoot is available on the device. |  ```PackageManager.FEATURE_VERIFIED_BOOT```  | Software | >= Android 5.0  |
-| **Mainline patch level** |  Indicates when the last mainline patch was installed. |  ```PackageManager.getPackageInfo("com.google.android.modulemetadata", 0).versionName``` | Software | API level > 1 |
-| **OEM / model** | Returns information about manufacturer, model, etc.  |  ```BUILD.MODEL, BUILD.PRODUCT, BUILD.MANUFACTURER, BUILD.BOARD```  | Software |  |
-| **Biometric class** |Returns information if class 3 biometrics is available.  |   ```BiometricManager.canAuthenticate(Authenticators#BIOMETRIC_STRONG)``` | Software | >= Android 12 |
-
+In addition to the device signals from Play Integrity API and Key & ID Attestation, Android System API calls can be used to collect further valuable properties of a device. This information is is collected in the application during runtime. For more information see [DSR-RFC-06]({{< relref "/docs/rfcs/dsr-rfc-06" >}}) or [Android Zero Trust Signals](https://developers.google.com/android/work/zero-trust-signals).
 
 #### iOS
+With [App Attest](https://developer.apple.com/documentation/devicecheck/establishing_your_app_s_integrity), part of the DeviceCheck framework, Apple provides a native API that makes it possible to verify the authenticity and integrity of Apple devices and apps via a hardware-bound key pair and an associated attestation or assertion in accordance with the [W3C WebAuthn specification](https://www.w3.org/TR/webauthn/). In contrast to Android Key & ID Attestation, this key pair can only be used to sign challenges.
+
+##### Further Device Signals
+Similar to Android , there are further valuable device and app properties that can be collected by using additional system APIs. For more information see [DSR-RFC-06]({{< relref "/docs/rfcs/dsr-rfc-06" >}}).
 
 ## Communication Channels
 
-###
+### Trust Client to GMS
+The Trust Client communicates directly or via the surrounding app with the GMS. In either case, the Trust Client provides the cryptographic key material required for secure communication (TLS, mTLS), including the attestation and session tokens:
+* App registration: When initial contact is made with the GMS, no app identity or key material for mTLS client authentication yet exists in the Trust Client. The GMS therefore offers a standard TLS endpoint for registration.
+* App attestation & device management: After successful registration with the GMS, the Trust Client holds key material for mTLS client authentication (keypair_mTLS). All GMS endpoints outside the registration are therefore only available via mTLS.
+### Trust Client to Health Service
+The Trust Client communicates directly or via thesurrounding app with the health service. In either case, the Trust Client provides the cryptographic key material required for secure communication (mTLS).
