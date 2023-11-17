@@ -1,0 +1,23 @@
+@startuml
+autonumber "<b>[00]"
+
+actor User as User
+
+User -> FrontEnd: List list_devices_registered
+FrontEnd -> TrustClient: get list_devices_registered
+
+== Device List Request (mTLS) ==
+
+TrustClient -> GMS: establish mTLS channel (cert_mTLS), request list_devices_registered
+note right
+(TODO) decide if additional attestation is needed, decide if additional user auth (eGK) is needed
+end note
+GMS -> GMS: get list_devices_registered(KVNR)
+GMS -> TrustClient: return list_devices_registered
+TrustClient -> FrontEnd: process list_devices_registered
+FrontEnd -> User: show list_devices_registered
+User -> FrontEnd: delete device_X
+FrontEnd -> TrustClient: send delete_request(device_X)
+note right
+TBD see ZT Konzept Abb. 3.5.2-4
+end note

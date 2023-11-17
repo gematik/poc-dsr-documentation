@@ -1,6 +1,6 @@
 ---
-linkTitle: PDP
-title: Policy Decision Point
+linkTitle: PEP & PDP
+title: Policy Enforcement Point & Policy Decision Point
 weight: 1
 ---
 
@@ -9,7 +9,14 @@ Content is under development
 {{% /pageinfo %}}
 
 ## Introduction
-tbd
+
+### Policy Enforcement Point (PEP)
+
+Access to `Health Services` is only possible after successful authorization. The `Policy Enforcement Point` enforces this for each individual access to a `Health Services`, allows authorized access in the granularity of the Zero Trust resources and protects against unauthorized access. For this purpose, it passes the user, device and environment information provided by the ``Trust Client`` to the `Policy Enforcement Point` during initial authorization and expects the `Policy Enforcement Point` to make an access decision. The `Policy Enforcement Point` also provides anonymized information on access decisions and pre-processed information on suspicious access requests for monitoring purposes.
+
+### Policy Decision Point (PDP)
+
+The core of a Zero Trust architecture is the decision as to whether a specific user may access a specific resource at a specific time, taking into account the available information on the user, device and environment. The architecture provides a ``Policy Decision Point`` for each `Health Services` that makes this decision. This requires up-to-date and explicit guidelines that define how authenticated users, services, devices and applications may interact with each other. A ``Policy Decision Point`` therefore receives the currently valid set of rules for the relevant specialist service from the `Policy Administration Point`, determines the rules that apply to the current access and evaluates them. To do this, the ``Policy Decision Point`` determines all the information required for the evaluation, unless it is already provided by the client with the authorization request. The concept follows the Enterprise-Centric-Implementation-Model according to ISO/IEC 29146 regarding the realization of ``Policy Decision Point`` and `Policy Enforcement Point` and provides for both components within a common trust space. This can be realized by a common boundary around the specialist service and `Policy Enforcement Point`/``Policy Decision Point`` or as separate instances (e.g. IaaS components) that are coupled in a trustworthy manner.
 
 ## Realisation of PDP with Open Policy Agent
 

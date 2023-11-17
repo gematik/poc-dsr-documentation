@@ -18,7 +18,7 @@ Minimal/basic trust that is needed for a successful registration at GMS and thus
 ### Android
 
 #### Google Play Integrity API
-Descriptions are partially taken from the [Android Developers PLay Integrity doucmentation](https://developer.android.com/google/play/integrity/verdicts).
+Descriptions are partially taken from the [Android Developers Play Integrity doucmentation](https://developer.android.com/google/play/integrity/verdicts).
 
 <table>
 <thead>
@@ -193,8 +193,9 @@ Descriptions are partially taken from the [Apple Developer DeviceCheck documenta
 Device security attributes that need to be provided by a device when trying to access a resource. GMS verifies token authenticity / integrity as well as app/Trust SDK info and forwards all information in device_token to PEP.
 ### Android
 #### Google Play Integrity API
+see [Minimal Trust Base for Registration]({{< relref "_index.md#google-play-integrity-api" >}}).
 #### Android Key & ID Attestation
-see 
+see [Minimal Trust Base for Registration]({{< relref "_index.md#android-key--id-attestation" >}}).
 
 #### Additional Security Attributes
 Descriptions are partially taken from the [Android Enterprise Developers Zero Trust signals documentation](https://developers.google.com/android/work/zero-trust-signals).
@@ -213,11 +214,44 @@ Descriptions are partially taken from the [Android Enterprise Developers Zero Tr
 
 ### iOS
 #### App Attest Service
+
+Descriptions are partially taken from the [Apple Developer DeviceCheck documentation](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service).
+<table>
+<thead>
+  <tr>
+    <th>Attribute</th>
+    <th>Expected Value</th>
+    <th>Description</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td colspan="4"><b>Assertion:</b></td>
+  </tr>
+  <tr>
+    <td>RP ID (32 bytes)</td>
+    <td>must be equal to the RP ID, defined in the available packages list at DMS</td>
+    <td>A hash of your app’s App ID, which is the concatenation of your 10-digit team identifier, a period, and your app’s CFBundleIdentifier value</td>
+  </tr>
+  <tr>
+    <td>counter (4 bytes)</td>
+    <td>ignored for PoC</td>
+    <td>value that reports the number of times your app has used the attested key to sign an assertion</td>
+  </tr>
+    <td colspan="4"><b>Fraud Risk (optional):</b></td>
+  </tr>
+  </tr>
+    <td colspan="4"><b>tbd</b></td>
+  </tr>
+</tbody>
+</table>
+
+
 #### Additional Security Attributes
 | Attribute  | Description | API  | Root of Trust | Availability |
 |---|---|---|---|---|---|
-|  System Name	 |  The name of the operating system running on the device. |   |  Software | >= iOS 2.0   | 
-| System version  |  The current version of the operating system. |   | Software |	 >= iOS 2.0  |
-| Model  | Possible examples of model strings are ”iPhone” and ”iPod touch”. | |Software  | 	 >= iOS 2.0  |
-| identifierForVendor  | An alphanumeric string that uniquely identifies a device to the app’s vendor. || Software  |  >=iOS 6.0 |
+|  System Name	 |  The name of the operating system running on the device. |  `UIDevice: var systemName: String { get }` |  Software | >= iOS 2.0   | 
+| System version  |  The current version of the operating system. |   `UIDevice: var systemVersion: String { get }` | Software |	 >= iOS 2.0  |
+| Model  | Possible examples of model strings are ”iPhone” and ”iPod touch”. | `UIDevice: var model: String { get }` |Software  | 	 >= iOS 2.0  |
+| identifierForVendor  | An alphanumeric string that uniquely identifies a device to the app’s vendor. | `UIDevice: var identifierForVendor: UUID? { get }` | Software  |  >=iOS 6.0 |
 | App Version  | The current version of the App system.  | tbd | Software  | tbd  |
