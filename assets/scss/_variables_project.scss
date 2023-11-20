@@ -87,3 +87,7 @@ h1 {
 img[src*="#screenshot"] {
   filter: drop-shadow(gray 5px 5px 5px);
 }
+
+.identifier {
+  font-family: monospace;
+}

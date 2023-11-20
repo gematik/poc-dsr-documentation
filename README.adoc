@@ -10,7 +10,8 @@ We use Hugo to generate the static website. To install Hugo, please follow the i
 
 To run the website locally, run the following command in the root directory of this repository:
 
-```
-hugo server
-```
+[source,bash]
+----
+hugo server -b http://localhost:1313/draft/ --buildDrafts
+----
 
