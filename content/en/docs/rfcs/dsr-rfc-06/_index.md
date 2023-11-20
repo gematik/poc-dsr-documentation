@@ -26,63 +26,67 @@ Descriptions are partially taken from the [Android Developers Play Integrity dou
     <th>Attribute</th>
     <th>Expected Value</th>
     <th>Description</th>
-    <th>Notes</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td colspan="4"><b>requestDetails:</b></td>
+    <td colspan="3"><b>requestDetails:</b></td>
   </tr>
   <tr>
-    <td>requestPackageName</td>
+    <td class="identifier">requestPackageName</td>
     <td>is equal to packageName from token payload and from AppIntegrity</td>
-    <td>application package name the attestation was requested for</td>
-    <td>check list with enrolled apps at DMS</td>
+    <td>
+      <p>application package name the attestation was requested for</p>
+      <p>check list with enrolled apps at DMS</p>
+    </td>
   </tr>
   <tr>
-    <td>nonce</td>
+    <td class="identifier">nonce</td>
     <td>nonce_Integrity</td>
     <td>base64-encoded URL-safe no-wrap nonce provided by the developer</td>
-    <td></td>
   </tr>
   <tr>
-    <td>timestampMillis</td>
+    <td class="identifier">timestampMillis</td>
     <td>t + 10 min < time of creation on device</td>
     <td>timestamp in milliseconds when the request was made</td>
-    <td></td>
   </tr>
   <tr>
-    <td colspan="4"><b>appIntegrity:</b></td>
+    <td colspan="3"><b>appIntegrity:</b></td>
   </tr>
   <tr>
-    <td>appRecognitionVerdict</td>
+    <td class="identifier">appRecognitionVerdict</td>
     <td>PLAY_RECOGNIZED</td>
     <td>app and certificate match the versions distributed by Google Play</td>
-    <td></td>
   </tr>
   <tr>
-    <td>packageName</td>
+    <td class="identifier">packageName</td>
     <td>must be in the list of available packages</td>
-    <td>package name of the app</td>
-    <td>check list with enrolled apps at DMS</td>
+    <td>
+      <p>package name of the app</p>
+      <p>check list with enrolled apps at DMS</p>
+    </td>
   </tr>
   <tr>
-    <td>certificateSha256Digest</td>
+    <td class="identifier">certificateSha256Digest</td>
     <td>must be equal to the sha256 digest, defined in the available packages list</td>
-    <td>sha256 digest of app certificates</td>
-    <td>check list with enrolled apps at GMS</td>
+    <td>
+      <p>sha256 digest of app certificates</p>
+      <p>check list with enrolled apps at GMS</p>
+    </td>
   </tr>
   <tr>
-    <td>versionCode</td>
+    <td class="identifier">versionCode</td>
     <td>must be in the list of available packages</td>
-    <td>version of the app</td>
-    <td>check list with enrolled apps at DMS</td>
+    <td>
+      <p>version of the app</p>
+      <p>check list with enrolled apps at DMS</p>
+    </td>
   </tr>
   <tr>
     <td colspan="4"><b>deviceIntegrity:</b></td>
   </tr>
   <tr>
-    <td>deviceIntegrity</td>
+    <td class="identifier">deviceIntegrity</td>
     <td>MEETS_DEVICE_INTEGRITY</td>
     <td>app is running on an Android device powered by Google Play services, device passes system integrity checks and meets Android compatibility requirements</td>
     <td></td>
@@ -91,7 +95,7 @@ Descriptions are partially taken from the [Android Developers Play Integrity dou
     <td colspan="4"><b>accountDetails:</b></td>
   </tr>
   <tr>
-    <td>appLicensingVerdict</td>
+    <td class="identifier">appLicensingVerdict</td>
     <td>LICENSED</td>
     <td> user has an app entitlement (user installed or bought your app on Google Play)</td>
     <td></td>
@@ -114,37 +118,37 @@ Descriptions are partially taken from the [Android Developers Key & ID Attestati
     <td colspan="3"><b>KeyDescription:</b></td>
   </tr>
   <tr>
-    <td>attestationVersion</td>
+    <td class="identifier">attestationVersion</td>
     <td>tbd</td>
     <td>version of the key attestation feature. </td>
   </tr>
   <tr>
-    <td>attestationSecurityLevel</td>
+    <td class="identifier">attestationSecurityLevel</td>
     <td>TrustedEnvironment (1), StrongBox (2)</td>
     <td>security level of the attestation</td>
   </tr>
   <tr>
-    <td>keyMintVersion / keymasterVersion</td>
+    <td class="identifier">keyMintVersion / keymasterVersion</td>
     <td>tbd</td>
     <td>security level of the attestation</td>
   </tr>
   <tr>
-    <td>keyMintSecurityLevel  / keymasterSecurityLevel</td>
+    <td class="identifier">keyMintSecurityLevel  / keymasterSecurityLevel</td>
     <td>tbd</td>
     <td>security level of the Keymaster/KeyMint implementation</td>
   </tr>
   <tr>
-    <td>attestationChallenge</td>
+    <td class="identifier">attestationChallenge</td>
     <td>nonce_keypair_attest</td>
     <td>challenge from creation</td>
   </tr>
   <tr>
-    <td>softwareEnforced</td>
+    <td class="identifier">softwareEnforced</td>
     <td>out of scope for PoC</td>
     <td></td>
   </tr>
   <tr>
-    <td>teeEnforced</td>
+    <td class="identifier">teeEnforced</td>
     <td>out of scope for PoC</td>
     <td></td>
   </tr>
