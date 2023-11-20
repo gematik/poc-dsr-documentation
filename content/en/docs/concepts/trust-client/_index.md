@@ -4,11 +4,6 @@ title: Trust Client
 weight: 1
 ---
 
-{{% pageinfo %}}
-Content is under development
-{{% /pageinfo %}}
-
-## Introducton
 The Trust Client is the central component for communication and interaction with the TI Zero Architecture (ZTA) and must provide the following functionality:
 * generation, storage and verification of a cryptographic, hardware-bound app/device identity
 * generation and verification of device and app attestations using platform mechanisms and trusted third parties

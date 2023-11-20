@@ -4,9 +4,7 @@ title: DSR-RFC-01 Device Registration
 weight: 1
 ---
 
-{{% pageinfo %}}
-Content is under development
-{{% /pageinfo %}}
+Device registration is performed by the user after previous authentication.
 
 ## 1. High Level Flow
 
@@ -19,3 +17,7 @@ Content is under development
 5. The `Device Management Service` sends the [`Certificate Signing Request`](../dsr-rfc-04/#trust-client-certificate-signing-request-crl) to the `DMS CA` which then issues a [`Trust Client Certificate`](../dsr-rfc-04/#trust-client-certificate-signing-request-crl)
 6. Finally, the `Device Management Service` stores the [app/device identity key material]({{< relref "/docs/concepts/trust-client/_index.md#app--device-identity" >}}) with the corresponding user identity in its database.
 7. The `Device Management Service` sents the [`Trust Client Certificate`](../dsr-rfc-04/#trust-client-certificate-signing-request-crl) to the [`TrustClient`]({{< relref "/docs/concepts/trust-client/">}}).
+
+## 2. Flow Details
+
+{{% plantuml file="main_flow.puml" %}}
