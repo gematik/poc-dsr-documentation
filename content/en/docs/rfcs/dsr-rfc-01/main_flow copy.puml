@@ -1,0 +1,98 @@
+@startuml
+autonumber "<b>[00]"
+skinparam defaultFontSize 10
+skinparam defaultFontName Helvetica
+skinparam DefaultMonospacedFontName Courier
+skinparam lengthAdjust none
+
+participant TrustClient
+participant PlayIntegrityAPI
+participant AppAttestAPI
+
+participant Smartcard
+
+box DMS
+participant DMS
+participant CA
+end box
+
+activate TrustClient
+
+== Nonce Request (TLS) ==
+
+TrustClient -> DMS ++: get ""nonce""
+note right
+Regular TLS
+Server auth only
+end note
+
+DMS -> DMS: generate ""nonce""\n store ""nonce""
+DMS -> TrustClient: return ""nonce""
+
+== Device ID Generation ==
+
+TrustClient -> TrustClient: derive nonces\n\t""nonce_keypair_mTLS = SHA256(nonce | 'KEYPAIR_MTLS')""\n\t""nonce_CSR_mTLS = SHA256(nonce | 'CSR_MTLS')""\n\t""nonce_Integrity = SHA256(nonce | 'INTEGRITY')""\n\t""nonce_smartcard = SHA256(nonce | 'SMARTCARD')""\n\t""nonce_attest = SHA256(nonce | 'ATTEST')""
+
+
+group Android
+TrustClient -> TrustClient: generate\n\t""keypair_attest""\n\t""attestCertChain(nonce_attest)""\n\t""keypair_mTLS""\n\t""keypair_mTLS_cert(nonce_keypair_mTLS)""\n\t""CSR(nonce_CSR_mTLS, keypair_mTLS)""
+TrustClient -> PlayIntegrityAPI ++: perform IntegrityTokenRequest(nonce_Integrity)
+return return integrityVerdict
+
+TrustClient -> TrustClient: create\n\t""JWT_registration(""\n\t\t""TYPE_ANDROID,""\n\t\t""nonce,""\n\t\t""pubkey_mTLS,""\n\t\t""keypair_mTLS_cert,""\n\t\t""pubkey_attest,""\n\t\t""attestCertChain""\n\t\t""integrityVerdict,""\n\t\t""CSR""\n\t"")""
+end group
+
+group iOS
+TrustClient -> TrustClient: generate\n\t""keypair_mTLS""\n\t""CSR(nonce_CSR_mTLS, keypair_mTLS)""
+TrustClient -> AppAttestAPI ++: generate\n\t""keypair_attest(""\n\t\t""SHA256(nonce_Integrity | SHA256(pubkey_mTLS))""\n\t"")""
+AppAttestAPI -> AppAttestAPI: attest
+
+return return attestation_statement
+
+TrustClient -> TrustClient: create\n\t""JWT_registration(""\n\t\t""TYPE_IOS,"",\n\t\t""nonce,""\n\t\t""pubkey_mTLS,""\n\t\t""attestation_statement,""\n\t\t""keyIdentifier_attest,""\n\t\t""CSR""\n\t"")""
+end group
+
+TrustClient -> Smartcard ++:  sign \n\t""(JWT_registration, nonce_smartcard)""\n\t""with""\n\t\t""PrK.CH.AUT.E256 and""\n\t\t""EF.C.CH.AUT.E256""
+return return JWS_registration_signed
+
+== Device Registration Request (TLS) == 
+
+TrustClient -> DMS: register device JWS(JWS_registration_signed)
+
+DMS -> DMS: verify JWS_registration_signed
+DMS -> DMS: check EF.C.CH.AUT.E256 validity
+note right
+gematik PKI OCSP
+end note
+
+group Android
+DMS -> DMS: extract nonce, pubkey_mTLS, AttestCert_mTLS,\nintegrityVerdict, CSR from JWS_registration_signed
+DMS -> DMS: verify attestCertChain and certification extension data
+DMS -> DMS: verify AttestCert_mTLS and certification extension data
+DMS -> DMS: verify AttestCert_mTLS was signed by pubkey_attest
+DMS -> GoogleServer ++: get Key Attestation certificate revocation status list
+return return CRL_json
+DMS -> DMS: evaluate CRL_json
+DMS -> GoogleServer ++: request integrity_verdict(integrityVerdict)
+return return verdict_json
+DMS -> DMS: evaluate verdict_json
+end Android
+
+group iOS
+DMS -> DMS: extract nonce, pubkey_mTLS, attestation_statement,\nkeyIdentifier_attest, CSR
+DMS -> DMS: verify attestation_statement
+end iOS
+
+DMS -> DMS: extract KVNR from EF.C.CH.AUT.E256 in JWS_registration_signed
+DMS -> CA ++: create cert_mTLS(CSR, UUID_device, nonce)
+return return cert_mTLS
+group Android
+DMS -> DMS: store (KVNR, UUID_device, cert_mTLS, cert_attest)
+end Android
+group iOS
+DMS -> DMS: store (KVNR, UUID_device, cert_mTLS, attestation_statement)
+end iOS
+return return cert_mTLS
+TrustClient -> TrustClient: store cert_mTLS
+
+@enduml

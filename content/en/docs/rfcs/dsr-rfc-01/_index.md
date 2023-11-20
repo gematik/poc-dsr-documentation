@@ -21,3 +21,112 @@ Device registration is performed by the user after previous authentication.
 ## 2. Flow Details
 
 {{% plantuml file="main_flow.puml" %}}
+
+## 2.1 Android specifics
+
+### 2.1.1 Create Android Device Registration
+
+```plantuml
+@startuml
+autonumber "<b>['2.1.1' 00]"
+skinparam defaultFontSize 10
+skinparam DefaultMonospacedFontName Courier
+skinparam lengthAdjust none
+
+activate TrustClient
+participant PlayIntegrityAPI
+
+
+group Android
+TrustClient -> TrustClient: generate\n\t""keypair_attest""\n\t""attestCertChain(nonce_attest)""\n\t""keypair_mTLS""\n\t""keypair_mTLS_cert(nonce_keypair_mTLS)""\n\t""CSR(nonce_CSR_mTLS, keypair_mTLS)""
+TrustClient -> PlayIntegrityAPI ++: perform IntegrityTokenRequest(nonce_Integrity)
+return return integrityVerdict
+
+TrustClient -> TrustClient: create\n\t""JWT_registration(""\n\t\t""TYPE_ANDROID,""\n\t\t""nonce,""\n\t\t""pubkey_mTLS,""\n\t\t""keypair_mTLS_cert,""\n\t\t""pubkey_attest,""\n\t\t""attestCertChain""\n\t\t""integrityVerdict,""\n\t\t""CSR""\n\t"")""
+
+end
+
+@enduml
+```
+
+
+### 2.1.2 Verify Android Device Registration
+
+```plantuml
+@startuml
+autonumber "<b>['2.1.1' 00]"
+skinparam defaultFontSize 10
+skinparam DefaultMonospacedFontName Courier
+skinparam lengthAdjust none
+
+activate DMS
+participant GoogleServer
+
+
+group Android
+DMS -> DMS: extract nonce, pubkey_mTLS, AttestCert_mTLS,\nintegrityVerdict, CSR from JWS_registration_signed
+DMS -> DMS: verify attestCertChain and certification extension data
+DMS -> DMS: verify AttestCert_mTLS and certification extension data
+DMS -> DMS: verify AttestCert_mTLS was signed by pubkey_attest
+DMS -> GoogleServer ++: get Key Attestation certificate revocation status list
+
+return return CRL_json
+DMS -> DMS: evaluate CRL_json
+DMS -> GoogleServer ++: request integrity_verdict(integrityVerdict)
+return return verdict_json
+DMS -> DMS: evaluate verdict_json
+
+end
+
+@enduml
+```
+
+## 2.2 Apple specifics
+
+### 2.2.1 Create Apple Device Registration
+
+```plantuml
+@startuml
+autonumber "<b>['2.2.1' 00]"
+skinparam defaultFontSize 10
+skinparam DefaultMonospacedFontName Courier
+skinparam lengthAdjust none
+
+activate TrustClient
+participant AppAttestAPI
+
+
+group Apple
+TrustClient -> TrustClient: generate\n\t""keypair_mTLS""\n\t""CSR(nonce_CSR_mTLS, keypair_mTLS)""
+TrustClient -> AppAttestAPI ++: generate\n\t""keypair_attest(""\n\t\t""SHA256(nonce_Integrity | SHA256(pubkey_mTLS))""\n\t"")""
+AppAttestAPI -> AppAttestAPI: attest
+
+return return attestation_statement
+
+TrustClient -> TrustClient: create\n\t""JWT_registration(""\n\t\t""TYPE_IOS,"",\n\t\t""nonce,""\n\t\t""pubkey_mTLS,""\n\t\t""attestation_statement,""\n\t\t""keyIdentifier_attest,""\n\t\t""CSR""\n\t"")""
+
+end
+
+@enduml
+```
+
+
+### 2.2.2 Verify Apple Device Registration
+
+```plantuml
+@startuml
+autonumber "<b>['2.2.2' 00]"
+skinparam defaultFontSize 10
+skinparam DefaultMonospacedFontName Courier
+skinparam lengthAdjust none
+
+activate DMS
+
+
+group Apple
+DMS -> DMS: extract nonce, pubkey_mTLS, attestation_statement,\nkeyIdentifier_attest, CSR
+DMS -> DMS: verify attestation_statement
+end
+
+@enduml
+```
