@@ -1,1 +1,14 @@
 = Device Security Rating Documentation
+
+Zero Trust proof of concept for the next generation German eHealth network (Telematics Infrastructure 2.0) with a focus on device attestation and policy enforcement.
+
+This repository contains the documentation for Device Security Project.
+
+* https://dsr.gematik.solutions[Device Security Rating Landing Page] (https://github.com/gematik/poc-dsr-documentation/tree/hugo[Sources])
+* https://github.com/gematik/poc-dsr-gms[Device Management Serivce (GMS)]
+* https://github.com/gematik/poc-dsr-fd[Dummy Health Service (FD)]
+* https://github.com/gematik/poc-dsr-fachdienst-policy[Dummy Health Service Policy (FD Policy)]
+* https://github.com/gematik/poc-dsr-pep[Policy Enforcement Point (PEP)]
+* **Mobile Vulnerability Management (MVM)**
+* **Android App / Trust Client (TCL)**
+* **iOS App / Trust Client (TCL)**
