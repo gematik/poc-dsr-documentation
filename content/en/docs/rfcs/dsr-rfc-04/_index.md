@@ -4,12 +4,7 @@ title: DSR-RFC-04 Security Tokens
 weight: 4
 ---
 
-{{% pageinfo %}}
-Content is under development
-{{% /pageinfo %}}
-
-## Introduction
-tbd
+DSR utilizes several tokens in order to register and attest the devices. All tokens are implemented using [JSON Web Token (JWT)](https://datatracker.ietf.org/doc/html/rfc7519).
 
 ## Device Registration Token (JWT_registration)
 

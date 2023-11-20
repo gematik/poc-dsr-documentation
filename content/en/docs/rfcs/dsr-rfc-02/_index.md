@@ -4,9 +4,7 @@ title: DSR-RFC-02 Resource Access
 weight: 2
 ---
 
-{{% pageinfo %}}
-Content is under development
-{{% /pageinfo %}}
+Resource access can only be performed from the previously registered and fresh attested device.
 
 ## 1. High Level Flow
 

@@ -1,0 +1,63 @@
+@startuml
+autonumber "<b>[00]"
+skinparam defaultFontSize 10
+skinparam defaultFontName Helvetica
+skinparam DefaultMonospacedFontName Courier
+skinparam lengthAdjust none
+
+participant TrustClient
+
+participant Smartcard
+
+participant DMS
+
+activate TrustClient
+
+TrustClient -> DMS ++: get ""nonce""
+note right
+Regular TLS
+Server auth only
+end note
+
+DMS -> DMS: generate ""nonce""\n store ""nonce""
+DMS -> TrustClient: return ""nonce""
+
+TrustClient -> TrustClient: derive nonces\n\t""nonce_keypair_mTLS = SHA256(nonce | 'KEYPAIR_MTLS')""\n\t""nonce_CSR_mTLS = SHA256(nonce | 'CSR_MTLS')""\n\t""nonce_Integrity = SHA256(nonce | 'INTEGRITY')""\n\t""nonce_smartcard = SHA256(nonce | 'SMARTCARD')""\n\t""nonce_attest = SHA256(nonce | 'ATTEST')""
+
+alt#FEFFD5  2.1.1 Create Android Device Registration
+TrustClient -> TrustClient: generate key pair and\ncreate ""JWT_registration""
+else 2.2.1 Create Apple Device Registration 
+TrustClient -> TrustClient: generate key pair and\ncreate ""JWT_registration""
+end
+
+TrustClient -> Smartcard ++:  sign ""(JWT_registration, nonce_smartcard)""\n\twith ""PrK.CH.AUT.E256""/""EF.C.CH.AUT.E256""
+return return JWS_registration_signed
+
+
+TrustClient -> DMS: register device JWS(JWS_registration_signed)
+
+DMS -> DMS: verify JWS_registration_signed
+DMS -> DMS: check EF.C.CH.AUT.E256 validity
+note left
+gematik PKI OCSP
+end note
+
+alt#FEFFD5 2.1.2 Verify Android Device Registration 
+DMS -> DMS: verify ""JWS_registration_signed""\nextract Android specifics
+else 2.2.2 Verify Apple Device Registration
+DMS -> DMS: verify ""JWS_registration_signed""\nextract Apple specifics
+end
+
+
+DMS -> DMS: extract KVNR from EF.C.CH.AUT.E256\nin JWS_registration_signed
+DMS -> DMS: create cert_mTLS(CSR, UUID_device, nonce)
+
+alt#FEFFD5 Store Android Device Registration
+DMS -> DMS: store\n\tKVNR\n\tUUID_device\n\tcert_mTLS\n\tcert_attest
+else Store Apple Device Registration
+DMS -> DMS: store\n\tKVNR\n\tUUID_device\n\tcert_mTLS\n\tattestation_statement
+end 
+return return cert_mTLS
+TrustClient -> TrustClient: store cert_mTLS
+
+@enduml

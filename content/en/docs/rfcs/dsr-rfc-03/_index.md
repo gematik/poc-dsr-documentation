@@ -4,11 +4,9 @@ title: DSR-RFC-03 Device Deletion
 weight: 3
 ---
 
-{{% pageinfo %}}
-Content is under development
-{{% /pageinfo %}}
+User can delete a device from any previously registered device.
 
-## Introduction
+## Flow Details
 
 {{% plantuml file="main_flow.puml" %}}
 
