@@ -56,13 +56,15 @@ If an app generates cryptographic key material in the KeyStore, a X.509 attestat
 
 An app-specific attestation key pair (keypair_attest) is created by the TrustClient and attested using Key & ID Attestation. Keypair_attest and the corresponding attestCert_attest now serve as the root of trust for the Trust Client, i.e. attests/signs all other cryptographic keys created in the life cycle of the Trust Client and surrounding app. This includes the app identity (keypair_mTLS, cert_mTLS), but also device and app attestations requested during resource access (keypair_attestation_n, cert_attestation_n).
 
-![token_flow](device_root_of_trust.png)
+![android_rot](device_root_of_trust.png)
 
 ##### Further Device Signals
 In addition to the device signals from Play Integrity API and Key & ID Attestation, Android System API calls can be used to collect further valuable properties of a device. This information is is collected in the application during runtime. For more information see [DSR-RFC-06]({{< relref "/docs/rfcs/dsr-rfc-06" >}}) or [Android Zero Trust Signals](https://developers.google.com/android/work/zero-trust-signals).
 
 #### iOS
 With [App Attest](https://developer.apple.com/documentation/devicecheck/establishing_your_app_s_integrity), part of the DeviceCheck framework, Apple provides a native API that makes it possible to verify the authenticity and integrity of Apple devices and apps via a hardware-bound key pair and an associated attestation or assertion in accordance with the [W3C WebAuthn specification](https://www.w3.org/TR/webauthn/). In contrast to Android Key & ID Attestation, this key pair can only be used to sign challenges.
+
+![ios_rot](apple_app_attest_key_hierachy.png)
 
 ##### Further Device Signals
 Similar to Android , there are further valuable device and app properties that can be collected by using additional system APIs. For more information see [DSR-RFC-06]({{< relref "/docs/rfcs/dsr-rfc-06" >}}).
