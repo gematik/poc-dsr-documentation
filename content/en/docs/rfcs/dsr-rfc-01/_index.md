@@ -95,7 +95,6 @@ skinparam lengthAdjust none
 activate TrustClient
 participant AppAttestAPI
 
-
 group Apple
 TrustClient -> TrustClient: generate\n\t""keypair_mTLS""\n\t""CSR(nonce_CSR_mTLS, keypair_mTLS)""
 TrustClient -> AppAttestAPI ++: generate\n\t""keypair_attest(""\n\t\t""SHA256(nonce_Integrity | SHA256(pubkey_mTLS))""\n\t"")""
@@ -109,6 +108,9 @@ end
 
 @enduml
 ```
+
+
+{{% codeblock language="java" file="../apple-samples/Sources/DeviceSecurityRating/TrustService.swift" start=59 end=128 %}}
 
 
 ### 2.2.2 Verify Apple Device Registration

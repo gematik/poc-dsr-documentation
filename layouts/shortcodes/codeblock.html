@@ -1,0 +1,16 @@
+{{ $filename := (path.Join $.Page.File.Dir (.Get "file")) }}
+{{ $language := .Get "language"}}
+{{ $start := .Get "start"}}
+{{ $end :=  .Get "end" }}
+{{ $numOfLines := sub $end $start }}
+{{ $numOfLines := add $numOfLines 1 }}
+
+{{ $filename := (path.Join $.Page.File.Dir (.Get "file")) }}
+{{ $file := $filename | readFile }}
+{{ $file := print "\n" $file }}
+{{ $code := split $file "\n" }}
+{{ $code := after $start $code }}
+{{ $code := first $numOfLines $code }}
+
+{{ $codeblock := delimit $code "\n" }}
+{{ (print "```" $language "{linenos=table,linenostart=" $start "}\n" $codeblock "\n```") | markdownify }}
