@@ -109,10 +109,6 @@ end
 @enduml
 ```
 
-
-{{% codeblock language="java" file="../apple-samples/Sources/DeviceSecurityRating/TrustService.swift" start=59 end=128 %}}
-
-
 ### 2.2.2 Verify Apple Device Registration
 
 ```plantuml
