@@ -4,10 +4,6 @@ title: DSR-RFC-09 Health Service API
 weight: 9
 ---
 
-{{% pageinfo %}}
-Content is under development
-{{% /pageinfo %}}
-
 ## Structure of the Health Service
 
 A concrete instance of a FD service is identified via FQDN 

@@ -25,13 +25,13 @@ The Trust Client is responsible for generating, storing and verifying the crypto
 * cryptographic, hardware-bound key pair (keypair_mTLS): 
     * ECC key pair with NIST P-256 curve
     * in TEE or Strongbox KeyStore, app-bound
-    * proof of storage location / properties via Android Key & ID Attestation (via app-specific app attestation key material, see section XXXX)
+    * proof of storage location / properties via Android Key & ID Attestation (via app-specific app attestation key material)
 
 #### iOS
 * cryptographic, hardware-bound key pair (keypair_mTLS): 
     * ECC key pair with NIST P-256 curve
     * in the Secure Enclave, app-bound
-    * indirect proof of storage location / properties via Apple App Attest API (pubkey_mTLS as fingerprint in the App Attest API attestation challenge, see section XXXX)
+    * indirect proof of storage location / properties via Apple App Attest API (pubkey_mTLS as fingerprint in the App Attest API attestation challenge)
 
 To prove the app identity to third parties, an X.509 client certificate is generated in a further step for the key material created under Android and iOS (keypair_mTLS). This can be done in two ways:
 * self-signed client certificate
