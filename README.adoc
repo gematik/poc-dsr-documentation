@@ -11,4 +11,4 @@ This repository contains the documentation for Device Security Project.
 * https://github.com/gematik/poc-dsr-pep[Policy Enforcement Point (PEP)]
 * **Mobile Vulnerability Management (MVM)**
 * **Android App / Trust Client (TCL)**
-* https://github.com/gematik/poc-dsr-pep[iOS App / Trust Client (TCL)]
+* https://github.com/gematik/poc-dsr-ios[iOS App / Trust Client (TCL)]
