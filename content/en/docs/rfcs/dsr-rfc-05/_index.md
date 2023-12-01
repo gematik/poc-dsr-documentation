@@ -4,50 +4,36 @@ title: DSR-RFC-05 UI Flows
 weight: 5
 ---
 
-{{% pageinfo %}}
-Content is under development
-{{% /pageinfo %}}
-
 ## Introduction
-
 
 To demonstrate the integration of DSR in mobile applications we provide the sample implementations of Frontend and Trust Client for [Google Android](https://github.com/gematik/poc-dsr-android) and [Apple iOS](https://github.com/gematik/poc-dsr-ios). 
 
-## Google Android
 
-### Step 1: Intro
+<table>
+  <thead>
+    <th style="text-align:center;">Google Android Demo</th>
+    <th style="text-align:center;">Apple iOS Demo</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{< video src="DSR-Android-Demo-Video" width="250px">}}</td>
+      <td>{{< video src="DSR-iOS-Demo-Video" width="250px">}}</td>
+    </tr>
+  </tbody>
+</table>
 
-![Start](01_start.png#screenshot)
 
-### Step 2: User Identification
 
-#### Enter CAN Number
-![CAN Number](03_can.png#screenshot)
 
-#### Enter PIN Number
-![PIN NUmber](04_pin.png#screenshot)
+## Android Registration and Data Access
 
-#### Read card and authenticate user
-![Read Card](05_card.png#screenshot)
 
-### Step 3: Device Security Check
 
-### Start Security Check
 
-![Start Security Check](06_registration1.png#screenshot)
 
-### Security Check in Progress
+{{< gallery match="*.png" sortOrder="asc" rowHeight="150" margins="5" thumbnailResizeOptions="1024x1024 q90 Lanczos" showExif=true previewType="blur" 
+thumbnailHoverEffect="enlarge"
+embedPreview=true loadJQuery=true >}}
 
-![Secirity Check in Progress](07_registration2.png#screenshot)
-
-### Security Check Verdict
-
-![Security Check Verdict](08_registration3.png#screenshot)
-
-## Step 4: eHealth Application Main Screen
-
-![Main Screen](09_Prescription.png#screenshot)
-
-## Ressource Access
-
-## Deletion of Registered Device
+<br/>
+<br/>
