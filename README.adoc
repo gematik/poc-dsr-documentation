@@ -1,4 +1,4 @@
-= Device Security Rating Documentation
+= Device Security Rating - Documentation
 
 Zero Trust proof of concept for the next generation German eHealth network (Telematics Infrastructure 2.0) with a focus on device attestation and policy enforcement.
 
