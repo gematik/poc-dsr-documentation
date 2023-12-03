@@ -84,3 +84,9 @@ The implementation of the pipeline was carried out using the following resources
 The main.py file receives a list of "keywords" such as "python3 main.py samsung galaxy s6". These keywords are searched for in a local redis-server instance, which contains all CPEs from NIST.
 
 The found CPEs are formatted properly and queried with the nvdlib at the NIST CVE API. The found CVEs are processed and outputted.
+
+### Challenges
+
+* The used API has a limited number of requests.
+* Not all devices have "proper" CPEs.
+* It is difficult to automatically determine if the found CVEs are fixed in the next patch.

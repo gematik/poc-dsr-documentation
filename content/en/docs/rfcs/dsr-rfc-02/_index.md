@@ -12,7 +12,7 @@ Resource access can only be performed from the previously registered and fresh a
 
 1. `Policy Decision Point` regularly downloads, verifies, and installs the currently active policy from `Policy Administration Point` as well as context information from `Policy Information Point`.
 2. `TrustClient` requests an attestation from the platform APIs. 
-3. Attestation results are transmitted to `Device Management Service` in form of [Device Attestation Token](../dsr-rfc-04/#device-attestation-token-jwt_attest). Device Registration Service verifies the authenticity and integrity of the attestation and issues the [Device Token](../dsr-rfc-04/#device-token-device_token)
+3. Attestation results are transmitted to `Device Management Service (GMS)` in form of [Device Attestation Token](../dsr-rfc-04/#device-attestation-token-jwt_attest). Device Registration Service verifies the authenticity and integrity of the attestation and issues the [Device Token](../dsr-rfc-04/#device-token-device_token)
 4. `TrustClient` connects to the `eHealth Service` using TLS. Mutual authentication is performed using the client certificate issued in [DSR-RFC-01]({{< ref "../dsr-rfc-01" >}})
 5. `Trust Client`sends the `Device Token` as bearer token bound to mTLS certificate or a OAuth2 Code to the eHealth Service's `PEP`. PEP verifies the authenticity of the Device Token and extracts the device information.
 6. `PEP` uses device information and other available signals (e.g. HTTP request headers) as input to the `PDP`. `PDP` applies the policy against the device information and any other input provided to it by the `PEP`.
@@ -53,14 +53,14 @@ skinparam defaultFontSize 10
 skinparam DefaultMonospacedFontName Courier
 skinparam lengthAdjust none
 
-activate DMS
+activate GMS
 
 group Android
-DMS -> DMS: extract\n\t""integrity_verdict""\n\t""AttestCert_derived""\n\t""device_attributes_security""
-DMS -> DMS: verify\n\t""AttestCert_derived""\ncheck\n\t""AttestCert_derived is child""\n\t""of AttestCert_mTLS""
-DMS -> GoogleServer ++: request\n\t""integrity_verdict(integrity_verdict)""
+GMS -> GMS: extract\n\t""integrity_verdict""\n\t""AttestCert_derived""\n\t""device_attributes_security""
+GMS -> GMS: verify\n\t""AttestCert_derived""\ncheck\n\t""AttestCert_derived is child""\n\t""of AttestCert_mTLS""
+GMS -> GoogleServer ++: request\n\t""integrity_verdict(integrity_verdict)""
 return return ""verdict_json""
-DMS -> DMS: create\n\t""device_token(""\n\t""verdict_json,""\n\t""device_attributes_security,""\n\t""UUID_device <-> KVNR""\n\t"")""
+GMS -> GMS: create\n\t""device_token(""\n\t""verdict_json,""\n\t""device_attributes_security,""\n\t""UUID_device <-> KVNR""\n\t"")""
 
 end
 ```
@@ -95,17 +95,17 @@ skinparam defaultFontSize 10
 skinparam DefaultMonospacedFontName Courier
 skinparam lengthAdjust none
 
-activate DMS
+activate GMS
 
 group Apple
-DMS -> DMS: extract assertion, device_attributes_security
-DMS -> AppleCA ++ : verify assertion
+GMS -> GMS: extract assertion, device_attributes_security
+GMS -> AppleCA ++ : verify assertion
 return return result
 group optional
-  DMS -> AppleBackEnd ++: assess fraud risk
+  GMS -> AppleBackEnd ++: assess fraud risk
   return return assessment
 end optional
-DMS -> DMS: create device_token(\n\tassertion,\n\tdevice_attributes_security,\n\tUUID_device <-> KVNR\n)
+GMS -> GMS: create device_token(\n\tassertion,\n\tdevice_attributes_security,\n\tUUID_device <-> KVNR\n)
 
 end
 ```

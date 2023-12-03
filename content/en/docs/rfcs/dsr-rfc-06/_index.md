@@ -6,6 +6,8 @@ weight: 6
 
 ## Introduction
 
+This RFC defines which Zero Trust signals are collected on- and off-device for security rating.
+
 ![dev_sec_level](device_security_figure.png)
 
 ## Minimal Trust Base for Registration
@@ -33,7 +35,7 @@ Descriptions are partially taken from the [Android Developers Play Integrity dou
     <td>is equal to packageName from token payload and from AppIntegrity</td>
     <td>
       <p>application package name the attestation was requested for</p>
-      <p>check list with enrolled apps at DMS</p>
+      <p>check list with enrolled apps at GMS</p>
     </td>
   </tr>
   <tr>
@@ -59,7 +61,7 @@ Descriptions are partially taken from the [Android Developers Play Integrity dou
     <td>must be in the list of available packages</td>
     <td>
       <p>package name of the app</p>
-      <p>check list with enrolled apps at DMS</p>
+      <p>check list with enrolled apps at GMS</p>
     </td>
   </tr>
   <tr>
@@ -75,7 +77,7 @@ Descriptions are partially taken from the [Android Developers Play Integrity dou
     <td>must be in the list of available packages</td>
     <td>
       <p>version of the app</p>
-      <p>check list with enrolled apps at DMS</p>
+      <p>check list with enrolled apps at GMS</p>
     </td>
   </tr>
   <tr>
@@ -168,7 +170,7 @@ Descriptions are partially taken from the [Apple Developer DeviceCheck documenta
   </tr>
   <tr>
     <td>RP ID (32 bytes)</td>
-    <td>must be equal to the RP ID, defined in the available packages list at DMS</td>
+    <td>must be equal to the RP ID, defined in the available packages list at GMS</td>
     <td>A hash of your app’s App ID, which is the concatenation of your 10-digit team identifier, a period, and your app’s CFBundleIdentifier value</td>
   </tr>
   <tr>
@@ -230,7 +232,7 @@ Descriptions are partially taken from the [Apple Developer DeviceCheck documenta
   </tr>
   <tr>
     <td>RP ID (32 bytes)</td>
-    <td>must be equal to the RP ID, defined in the available packages list at DMS</td>
+    <td>must be equal to the RP ID, defined in the available packages list at GMS</td>
     <td>A hash of your app’s App ID, which is the concatenation of your 10-digit team identifier, a period, and your app’s CFBundleIdentifier value</td>
   </tr>
   <tr>

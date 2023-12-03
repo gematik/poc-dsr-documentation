@@ -18,8 +18,8 @@ In the following sections, the current limitations of the DSR PoC will be descri
 
 ## General
 
-### Code Quality & Production Readiness
-tbd
+### Production Readiness
+Since this software is not a productive version, please submit an issue or pull request for any bugs or vulnerabilities you find. In case of a responsible disclosure, please follow instructions on [https://www.gematik.de/datensicherheit#c1227](https://www.gematik.de/datensicherheit#c1227).
 
 ### Cloud Native Architecture
 tbd
@@ -43,7 +43,7 @@ tbd
 ### Mobile Vulnerability Management
 Although the PoC includes initial work on vulnerability management for mobile devices, further research is needed.
 
-### Device Management Service Certificate Authority
+### Device Management Service (GMS) Certificate Authority
 The PoC currently uses a rudimentary CA implementation for demonstration purposes only. In a future release, this part will be enhanced with a proper framework and protocols. We are already investigating client certificate issuance based on [Automated Certificate Management Environment (ACME) Device Attestation](https://datatracker.ietf.org/doc/draft-acme-device-attest/).
 
 ### Authentication with the Electronic Health Card
@@ -52,7 +52,7 @@ The current implementation of device/application registration uses a virtual ele
 ## Services & Infrastructure
 
 ### PIP & PAP
-tbd
+In the PoC, PIP and PAP are not yet implemented as a standalone service. This issue will be addressed at a later stage.
 
 ### User Portal
 The Zero Trust concept paper describes a user portal that allows users to manage their devices and set individual settings for their interaction with the TI Zero Trust infrastructure. In the PoC, this functionality was integrated into the dummy health client for simplicity.
@@ -60,8 +60,8 @@ The Zero Trust concept paper describes a user portal that allows users to manage
 ## Security & Privacy
 Since this software is not a productive version, please submit an issue or pull request for any bugs or vulnerabilities you find. In case of a responsible disclosure, please follow instructions on [https://www.gematik.de/datensicherheit#c1227](https://www.gematik.de/datensicherheit#c1227).
 
-### Device Management Service Trusted Execution Environment
-The Device Management Service currently runs without enhanced isolation or sandboxing. This issue will be addressed at a later date.
+### Device Management Service (GMS) Trusted Execution Environment
+The Device Management Service (GMS) currently runs without enhanced isolation or sandboxing. This issue will be addressed at a later date.
 
 ### Privacy-Enhancing Measurements
 Although privacy has been one of the key design principles for the PoC, the current architecture does not incorporate advanced privacy-enhancing mechanisms. This issue will be addressed at a later stage.

@@ -7,20 +7,20 @@ skinparam lengthAdjust none
 
 activate TrustClient
 
-participant DMS
+participant GMS
 box "Policy Enforcement"
 participant PEP
 participant PDP
 end box
 participant Backend as "eHealth\nService"
 
-TrustClient -> DMS++: ""GET /nonce""
+TrustClient -> GMS++: ""GET /nonce""
 note right
 Regular TLS
 Server auth only
 end note
-DMS -> DMS: generate ""nonce""\nstore ""nonce"" in session
-DMS -> TrustClient --: ""nonce""
+GMS -> GMS: generate ""nonce""\nstore ""nonce"" in session
+GMS -> TrustClient --: ""nonce""
 
 
 TrustClient -> TrustClient: generate\n  ""pkceCodeVerifier""\n  ""pkceCodeChallenge""
@@ -32,30 +32,30 @@ TrustClient -> TrustClient: Provide JWS_attest_signed
 end
 
 
-TrustClient -> DMS ++ : ""JWS_attest_signed"" \n ""pkceCodeChallenge""  
+TrustClient -> GMS ++ : ""JWS_attest_signed"" \n ""pkceCodeChallenge""  
 note right
 Mutual TLS
 end note
-DMS -> DMS: check if device ID is known\n(find device registration)
-DMS -> DMS: check if publicKey fingerprint from mTLS is\n"sub" claim at JWS_attest_signed
-DMS -> DMS: verify JWS_attest_signed  
-DMS -> TrustClient: return auth_code
+GMS -> GMS: check if device ID is known\n(find device registration)
+GMS -> GMS: check if publicKey fingerprint from mTLS is\n"sub" claim at JWS_attest_signed
+GMS -> GMS: verify JWS_attest_signed  
+GMS -> TrustClient: return auth_code
 
 alt#FEFFD5 2.1.2 Verify Android Device Attest 
-DMS -> DMS: Provide device_token 
+GMS -> GMS: Provide device_token 
 else 2.2.2 Verify Apple Device Attest
-DMS -> DMS: Provide device_token 
+GMS -> GMS: Provide device_token 
 end
 
-DMS -> DMS: sign device_token(privKey_GMS)
+GMS -> GMS: sign device_token(privKey_GMS)
  
  ... some delay ...
  
-TrustClient -> DMS: ""auth_code""\n""pkceCodeVerifier""
+TrustClient -> GMS: ""auth_code""\n""pkceCodeVerifier""
 note right
 Mutual TLS
 end note
-DMS -> DMS: verify\n ""auth_code""\n ""pkceCodeVerifier""
+GMS -> GMS: verify\n ""auth_code""\n ""pkceCodeVerifier""
 return ""device_token""
 note right
 PKCE can also be performed by PEP

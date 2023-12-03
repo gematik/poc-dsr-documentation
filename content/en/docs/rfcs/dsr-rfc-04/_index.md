@@ -8,7 +8,7 @@ DSR utilizes several tokens in order to register and attest the devices. All tok
 
 ## Device Registration Token (JWT_registration)
 
-* sent from TrustClient to GMS during registration
+* sent from TrustClient to Device Management Service (GMS) during registration
 * contains all needed information for registration
 * signed with EF.C.CH.AUT.E256 (eGK)
 * see [DSR-RFC-01]({{< ref "/docs/rfcs/dsr-rfc-01" >}} "DSR-RFC-01") for corresponding sequence diagram
@@ -61,7 +61,7 @@ DSR utilizes several tokens in order to register and attest the devices. All tok
 
 ## Device Attestation Token (JWT_attest)
 
-* sent from TrustClient to GMS for attestation
+* sent from TrustClient to Device Management Service (GMS) for attestation
 * contains attestation information
 * signed with mTLS_privateKey, (Android), privateKey_attest (iOS)
 * see [DSR-RFC-02]({{< ref "/docs/rfcs/dsr-rfc-02" >}} "DSR-RFC-02") for corresponding sequence diagram
@@ -152,7 +152,7 @@ DSR utilizes several tokens in order to register and attest the devices. All tok
 
 ## Device Token (device_token)
 
-* sent from GSM to TrustClient to PEP (or directly from GSM to PEP)
+* sent from Device Management Service (GMS) to TrustClient to PEP (or directly from GMS to PEP)
 * contains standard values from OAuth2.0 Certificate-Bound Access Tokens and
     * verdict_json ( Google Integrity API)
     * assertion (iOS)
@@ -288,7 +288,7 @@ DSR utilizes several tokens in order to register and attest the devices. All tok
 ```
 
 ## Trust Client Certificate Signing Request (CRL)
-* sent from TrustClient to GMS and then to GMS CA for requesting / issuing Cert_mTLS
+* sent from TrustClient to Device Management Service (GMS) and then to GMS CA for requesting / issuing Cert_mTLS
 * contains standardized information
 * signed by TrustClient with privKey_mTLS
 * see [DSR-RFC-01]({{< ref "/docs/rfcs/dsr-rfc-01" >}} "DSR-RFC-01") for corresponding sequence diagram
@@ -302,7 +302,7 @@ Organization = DSR_POC
 
 ## Trust Client Certificate (cert_mTLS)
 
-* issued by GMS CA to TrustClient / device
+* issued by Device Management Service (GMS) CA to TrustClient / device
 * attests the device's/app's pubkey_mTLS (device identity)
 * must contain KVNR 
 * see [DSR-RFC-01]({{< ref "/docs/rfcs/dsr-rfc-01" >}} "DSR-RFC-01") for corresponding sequence diagram

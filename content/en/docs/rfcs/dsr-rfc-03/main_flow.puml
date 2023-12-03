@@ -6,15 +6,15 @@ actor User as User
 User -> FrontEnd: view devices
 FrontEnd -> TrustClient: request devices
 
-TrustClient --> DMS++: establish mTLS channel (cert_mTLS)
-TrustClient -> DMS: GET ""/device-registrations""\n\t""userIdentifier={KVNR}""
-DMS -> TrustClient: array ""DeviceRegistration""
+TrustClient --> GMS++: establish mTLS channel (cert_mTLS)
+TrustClient -> GMS: GET ""/device-registrations""\n\t""userIdentifier={KVNR}""
+GMS -> TrustClient: array ""DeviceRegistration""
 TrustClient -> FrontEnd: devices list
 FrontEnd -> User: show devices
 User -> FrontEnd: delete device_X
 FrontEnd -> TrustClient: delete device_X
-TrustClient --> DMS: DELETE ""/device-registrations""\n\t""userIdentifier={KVNR}""\n\t""deviceIdentifier={device_X}""
-DMS --> TrustClient--: 200 OK
+TrustClient --> GMS: DELETE ""/device-registrations""\n\t""userIdentifier={KVNR}""\n\t""deviceIdentifier={device_X}""
+GMS --> TrustClient--: 200 OK
 TrustClient -> FrontEnd: deleted successfully
 FrontEnd -> User: show remaining devices
 
