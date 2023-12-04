@@ -5,10 +5,6 @@ weight: 3
 description: Description of DSR PoC Limitations
 ---
 
-{{% pageinfo %}}
-Content is under development
-{{% /pageinfo %}}
-
 ## Introduction
 The goal of the Device Security Rating Proof of Concept is to demonstrate and discuss the feasibility of the central Zero Trust building blogs for the telematics infrastructure. For this reason, not all services and functionality shown in the Zero Trust architecture overview below and described in the [Zero Trust concept paper](https://fachportal.gematik.de/fileadmin/Fachportal/Downloadcenter/gemKPT_Zero_Trust_V1.0.0.pdf) are present in the PoC concept and source code. It is possible that the integration of the missing components and functionality will be investigated in a future release.
 
