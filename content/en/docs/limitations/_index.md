@@ -18,7 +18,11 @@ In the following sections, the current limitations of the DSR PoC will be descri
 Since this software is not a productive version, please submit an issue or pull request for any bugs or vulnerabilities you find. In case of a responsible disclosure, please follow instructions on [https://www.gematik.de/datensicherheit#c1227](https://www.gematik.de/datensicherheit#c1227).
 
 ### Cloud Native Architecture
-tbd
+For our PoC, we initially focused on a bare metal runtime using Docker and Docker Compose. The Docker images are built using cloud-friendly frameworks like Quarkus and Go Gin. However, they were specifically not designed to be run as pods in a Kubernetes cluster.
+
+Currently, we offer Nginx as the sole API gateway and TLS termination solution. Consequently, our Policy Enforcement Point (PEP) only supports this particular deployment. In production-ready cloud setups, greater flexibility is required to support Kubernetes Ingress or other cloud-native API publishing offerings.
+
+Lastly, the configuration and secrets management should be optimized, particularly in terms of key management. This involves integration with a Key Management Service (KMS) provided by the cloud provider, ensuring more secure and efficient handling of sensitive data.
 
 ### Minimal Requirements for Trust Client Hardware
 The PoC uses the latest available device attestation mechanisms. This means that an Android device with at least Android 12 (API level 31)* or an iOS device with at least iOS 14.0 is required to test the Tust Client functionality. We are aware that this excludes a large number of devices currently on the market. Possible mitigation strategies are under discussion and will be made available at a later date.
@@ -34,7 +38,11 @@ The PoC is focused on mobile applications and devices. We are already evaluating
 The user identification & authentication part of resource access provided by the IdP Federation is currently outside the scope of the PoC. As the user and device/application authentication flows are currently independent and will only be merged at the PEP, integration will be provided at a later stage.
 
 ### Monitoring, Reporting & Telemetry
-tbd
+Our current logging setup relies on the basic logging features provided by the web frameworks we use. We haven't yet fine-tuned this logging to capture all the detailed information needed for running such critical system.
+
+At our Policy Enforcement Point (PEP), we use the standard logging provided by the Open Policy Agent for tracking both real and test policy enforcement. But, when we move to a production environment, we need to be more careful about our logging. We have to decide what information should be logged, especially making sure we don't log any private data. It's important to keep our data safe and private.
+
+Also, we need to add more tools to our software to better check the system's health. This means putting telemetry - a way to measure system performance - in key parts of our system. This will help us keep a close eye on how each part is doing and maintain the system better.
 
 ### Mobile Vulnerability Management
 Although the PoC includes initial work on vulnerability management for mobile devices, further research is needed.
