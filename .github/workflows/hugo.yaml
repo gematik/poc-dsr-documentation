@@ -60,11 +60,11 @@ jobs:
             --gc \
             --minify \
             --buildDrafts \
-            --baseURL "${{ steps.pages.outputs.base_url }}/draft/"          
+            --baseURL "${{ steps.pages.outputs.base_url }}/"          
       - name: Copy to draft subfolder
         run: |
-          mkdir -p ./site/draft
-          cp -r ./public/* ./site/draft
+          mkdir -p ./site
+          cp -r ./public/* ./site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
