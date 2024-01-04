@@ -29,5 +29,5 @@ You can find the source code in the [gematik GitHub team](https://github.com/gem
 * **[Dummy Health Service Policy (FD Policy)](https://github.com/gematik/poc-dsr-fachdienst-policy)**
 * **[Policy Enforcement Point (PEP)](https://github.com/gematik/poc-dsr-pep)**
 * **[Mobile Vulnerability Management (MVM)](https://github.com/gematik/ref-dsr-cpe-cve-matcher)**
-* **Android App / Trust Client (TCL) (Coming soon)**
+* **[Android App / Trust Client (TCL)](https://github.com/gematik/poc-dsr-android)**
 * **[iOS App / Trust Client (TCL)](https://github.com/gematik/poc-dsr-ios)**
