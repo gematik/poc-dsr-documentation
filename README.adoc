@@ -10,5 +10,5 @@ This repository contains the documentation for DSR Project as well as source for
 * https://github.com/gematik/poc-dsr-fachdienst-policy[Dummy Health Service Policy (FD Policy)]
 * https://github.com/gematik/poc-dsr-pep[Policy Enforcement Point (PEP)]
 * https://github.com/gematik/ref-dsr-cpe-cve-matcher[Mobile Vulnerability Management (MVM)]
-* **Android App / Trust Client (TCL)**
+* https://github.com/gematik/poc-dsr-android[Android App / Trust Client (TCL)]
 * https://github.com/gematik/poc-dsr-ios[iOS App / Trust Client (TCL)]
